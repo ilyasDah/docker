@@ -6,15 +6,12 @@ pipeline {
         maven "M3"
     }
 
-    environment {
-        TARGET_DIR = 'D:\\SupMTI\\TP\\Jenkins\\deploy'   // Le répertoire de destination pour le JAR
-    }
 
     stages {
         stage('Checkout from git') {
             steps {
                 // Get some code from a GitHub repository
-                git 'https://github.com/ilyasDah/SpringBoot.git'
+                git 'https://github.com/ilyasDah/docker.git'
             }
         }
 
@@ -26,20 +23,20 @@ pipeline {
 
         stage('Build Package') {
             steps {
-                bat 'mvn clean install package'
+                bat 'mvn clean package'
             }
         }
 
         stage('Deploy Project') {
             steps {
-                bat 'copy target\\Springboot-0.0.1-SNAPSHOT.jar D:\\SupMTI\\TP\\Jenkins\\deploy\\Springboot-0.0.1-SNAPSHOT.jar'
+                bat 'docker build -t spring-boot-hello-world .'
             }
         }
 
         stage('Start Project') {
             steps {
                 // Utilisation de la commande 'start /b' pour lancer le fichier .bat en arrière-plan sans fenêtre
-                bat 'start /b D:\\SupMTI\\TP\\Jenkins\\deploy\\run-springboot.bat'
+                bat 'docker run -p 8080:8080 spring-boot-hello-world'
             }
         }
     }
