@@ -36,7 +36,7 @@ pipeline {
         stage('Start Project') {
             steps {
                 // Utilisation de la commande 'start /b' pour lancer le fichier .bat en arrière-plan sans fenêtre
-                bat 'docker run -p 8080:8080 spring-boot-hello-world'
+                bat 'docker run -p 8081:8080 spring-boot-hello-world'
             }
         }
     }
